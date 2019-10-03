@@ -22,9 +22,10 @@ namespace LEARNING_EF_CODE_FIRST
 				databaseContext =
 					new Models.DatabaseContext();
 
-				Models.Country country = new Models.Country();
-
-				country.Name = "Iran";
+				Models.Country country = new Models.Country
+				{
+					Name = "Iran",
+				};
 
 				databaseContext.Countries.Add(country);
 
@@ -39,7 +40,7 @@ namespace LEARNING_EF_CODE_FIRST
 				if (databaseContext != null)
 				{
 					databaseContext.Dispose();
-					databaseContext = null;
+					//databaseContext = null;
 				}
 			}
 		}
@@ -57,28 +58,37 @@ namespace LEARNING_EF_CODE_FIRST
 					databaseContext.Countries
 					.FirstOrDefault();
 
-				// Solution (1)
-				Models.State state1 = new Models.State();
+				if (country == null)
+				{
+					System.Windows.Forms.MessageBox.Show("There is not any country!");
+					return;
+				}
 
-				state1.Name = "State (1)";
-				state1.CountryId = country.Id;
+				// Solution (1)
+				Models.State state1 = new Models.State
+				{
+					Name = "State (1)",
+					CountryId = country.Id,
+				};
 
 				databaseContext.States.Add(state1);
 				// /Solution (1)
 
 				// Solution (2)
-				Models.State state2 = new Models.State();
-
-				state2.Name = "State (2)";
-				state2.Country = country;
+				Models.State state2 = new Models.State
+				{
+					Name = "State (2)",
+					Country = country,
+				};
 
 				databaseContext.States.Add(state2);
 				// /Solution (2)
 
 				// Solution (3)
-				Models.State state3 = new Models.State();
-
-				state3.Name = "State (3)";
+				Models.State state3 = new Models.State
+				{
+					Name = "State (3)",
+				};
 
 				country.States.Add(state3);
 				// /Solution (3)
