@@ -22,14 +22,28 @@ namespace LEARNING_EF_CODE_FIRST
 				databaseContext =
 					new Models.DatabaseContext();
 
-				Models.Country country = new Models.Country
+				Models.Country country =
+					databaseContext.Countries
+					.Where(current => current.Name.ToLower() == "Iran".ToLower())
+					.FirstOrDefault();
+
+				if (country == null)
 				{
-					Name = "Iran",
-				};
+					country = new Models.Country
+					{
+						Name = "Iran",
+					};
 
-				databaseContext.Countries.Add(country);
+					databaseContext.Countries.Add(country);
 
-				databaseContext.SaveChanges();
+					databaseContext.SaveChanges();
+
+					System.Windows.Forms.MessageBox.Show("Iran country created successfully!");
+				}
+				else
+				{
+					System.Windows.Forms.MessageBox.Show("Iran country already exists!");
+				}
 			}
 			catch (System.Exception ex)
 			{
@@ -56,11 +70,25 @@ namespace LEARNING_EF_CODE_FIRST
 
 				Models.Country country =
 					databaseContext.Countries
+					.Where(current => current.Name.ToLower() == "Iran".ToLower())
 					.FirstOrDefault();
 
 				if (country == null)
 				{
 					System.Windows.Forms.MessageBox.Show("There is not any country!");
+
+					return;
+				}
+
+				bool hasAnyStatesForIran =
+					databaseContext.States
+					.Where(current => current.CountryId == country.Id)
+					.Any();
+
+				if (hasAnyStatesForIran)
+				{
+					System.Windows.Forms.MessageBox.Show("Iran states already has been created!");
+
 					return;
 				}
 

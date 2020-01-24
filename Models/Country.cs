@@ -7,6 +7,11 @@
 		}
 
 		// **********
+		[System.ComponentModel.DataAnnotations.MaxLength
+			(length: 50)]
+
+		[System.ComponentModel.DataAnnotations.Schema.Index
+			(IsUnique = true)]
 		public string Name { get; set; }
 		// **********
 
